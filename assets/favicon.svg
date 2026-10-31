@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Пътна помощ 24/7">
+  <rect width="64" height="64" rx="16" fill="#090a0c"/>
+  <path d="M8 38h48v11a5 5 0 0 1-5 5H13a5 5 0 0 1-5-5V38Z" fill="#e52632"/>
+  <path d="M14 24h32l8 14H8l6-14Z" fill="#fff"/>
+  <circle cx="19" cy="49" r="6" fill="#090a0c" stroke="#fff" stroke-width="3"/>
+  <circle cx="45" cy="49" r="6" fill="#090a0c" stroke="#fff" stroke-width="3"/>
+  <text x="32" y="19" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="900" fill="#fff">24/7</text>
+</svg>

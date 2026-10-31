@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://flamingb1rd.github.io/patna-pomosht-vt/sitemap.xml
