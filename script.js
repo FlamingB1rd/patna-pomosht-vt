@@ -10,6 +10,7 @@
   const smsLink = document.querySelector("#sms-location");
   const copyButton = document.querySelector("#copy-location");
   const retryButton = document.querySelector("#retry-location");
+  const copyLabel = copyButton?.querySelector(".button-label");
 
   let mapUrl = "";
   let shareText = "";
@@ -117,7 +118,7 @@
 
     try {
       await copyToClipboard(`${shareText} ${mapUrl}`);
-      copyButton.textContent = "Линкът е копиран";
+      if (copyLabel) copyLabel.textContent = "Линкът е копиран";
     } catch {
       window.open(mapUrl, "_blank", "noopener,noreferrer");
     }
@@ -130,7 +131,7 @@
       await copyToClipboard(mapUrl);
       copyButton.textContent = "Линкът е копиран";
       window.setTimeout(() => {
-        copyButton.textContent = "Копирай линка";
+        if (copyLabel) copyLabel.textContent = "Копирай линка";
       }, 2400);
     } catch {
       window.open(mapUrl, "_blank", "noopener,noreferrer");
