@@ -741,8 +741,11 @@ summary:focus-visible {
   overscroll-behavior-inline: contain;
   scroll-snap-type: inline mandatory;
   scroll-padding-inline: 1px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--red) #171a20;
+  scrollbar-width: none;
+}
+
+.work-gallery::-webkit-scrollbar {
+  display: none;
 }
 
 .work-gallery:focus-visible {
