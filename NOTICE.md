@@ -7,3 +7,5 @@ The source code, visual design, written content, branding, and photographs in th
 The towing photographs were supplied by and are used with permission of the website owner.
 
 Third-party service names and trademarks, including Google and Viber, remain the property of their respective owners. Links to those services do not imply sponsorship or endorsement.
+
+Interface icons are from Font Awesome Free 7.3.1 by Fonticons, Inc. Font Awesome Free icons are licensed under CC BY 4.0. See https://fontawesome.com/license/free.
