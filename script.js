@@ -5,6 +5,7 @@
   const resultBox = document.querySelector("#location-result");
   const errorBox = document.querySelector("#location-error");
   const errorText = document.querySelector("#location-error-text");
+  const locationHelpText = document.querySelector("#location-help-text");
   const accuracyText = document.querySelector("#accuracy-text");
   const shareButton = document.querySelector("#share-location");
   const smsLink = document.querySelector("#sms-location");
@@ -14,11 +15,47 @@
 
   let mapUrl = "";
   let shareText = "";
+  let permissionStatus = null;
+  let requestNumber = 0;
 
   const showState = (state) => {
     statusBox.hidden = state !== "loading";
     resultBox.hidden = state !== "ready";
     errorBox.hidden = state !== "error";
+  };
+
+  const setPermissionHelp = () => {
+    if (!locationHelpText) return;
+
+    const userAgent = navigator.userAgent;
+    if (/iPad|iPhone|iPod/.test(userAgent)) {
+      locationHelpText.textContent = "На iPhone/iPad: отворете Настройки → Поверителност и сигурност → Услуги за местоположение и разрешете достъпа за браузъра. В Safari можете и от aA → Настройки за уебсайта → Местоположение → Разрешаване.";
+      return;
+    }
+
+    if (/Android/i.test(userAgent)) {
+      locationHelpText.textContent = "На Android: натиснете иконата до адреса на сайта → Разрешения → Местоположение → Разрешаване. Проверете също дали Местоположение/GPS е включено в телефона.";
+      return;
+    }
+
+    locationHelpText.textContent = "Натиснете иконата до адреса на сайта → Разрешения за сайта → Местоположение → Разрешаване. След това натиснете „Провери отново“.";
+  };
+
+  const showLocationError = (message) => {
+    errorText.textContent = message;
+    setPermissionHelp();
+    showState("error");
+  };
+
+  const readPermissionState = async () => {
+    if (!navigator.permissions?.query) return "unknown";
+
+    try {
+      permissionStatus = await navigator.permissions.query({ name: "geolocation" });
+      return permissionStatus.state;
+    } catch {
+      return "unknown";
+    }
   };
 
   const copyToClipboard = async (value) => {
@@ -38,44 +75,64 @@
     input.remove();
   };
 
-  const getLocation = () => {
+  const usePosition = (position, currentRequest) => {
+    if (currentRequest !== requestNumber) return;
+
+    const latitude = position.coords.latitude.toFixed(6);
+    const longitude = position.coords.longitude.toFixed(6);
+    const accuracy = Math.max(1, Math.round(position.coords.accuracy));
+
+    mapUrl = "https://www.google.com/maps?q=" + latitude + "," + longitude;
+    shareText = "Нуждая се от пътна помощ. Това е моето местоположение:";
+    accuracyText.textContent = "Точност: приблизително " + accuracy + " м.";
+
+    const separator = /iPad|iPhone|iPod/.test(navigator.userAgent) ? "&" : "?";
+    smsLink.href = "sms:" + separator + "body=" + encodeURIComponent(shareText + " " + mapUrl);
+    showState("ready");
+  };
+
+  const handleLocationFailure = (error, currentRequest, allowFallback) => {
+    if (currentRequest !== requestNumber) return;
+
+    if (allowFallback && (error.code === 2 || error.code === 3)) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => usePosition(position, currentRequest),
+        (fallbackError) => handleLocationFailure(fallbackError, currentRequest, false),
+        { enableHighAccuracy: false, timeout: 12000, maximumAge: 120000 }
+      );
+      return;
+    }
+
+    const messages = {
+      1: "Достъпът до местоположението е отказан. Браузърът няма да попита отново, докато не го разрешите от настройките за този сайт.",
+      2: "Местоположението не може да бъде определено в момента. Проверете дали GPS е включен и дали имате интернет връзка.",
+      3: "Определянето на местоположението отне твърде дълго. Излезте на открито или включете GPS и опитайте отново."
+    };
+
+    showLocationError(messages[error.code] || "Възникна неочаквана грешка. Опитайте отново.");
+  };
+
+  const getLocation = async () => {
+    const currentRequest = ++requestNumber;
     showState("loading");
 
     if (!navigator.geolocation) {
-      errorText.textContent = "Този браузър не поддържа определяне на местоположение.";
-      showState("error");
+      showLocationError("Този браузър не поддържа определяне на местоположение.");
+      return;
+    }
+
+    const permissionState = await readPermissionState();
+    if (currentRequest !== requestNumber) return;
+
+    if (permissionState === "denied") {
+      showLocationError("Достъпът до местоположението е блокиран за този сайт. Разрешете го от настройките на браузъра и натиснете „Провери отново“.");
       return;
     }
 
     navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const latitude = position.coords.latitude.toFixed(6);
-        const longitude = position.coords.longitude.toFixed(6);
-        const accuracy = Math.max(1, Math.round(position.coords.accuracy));
-
-        mapUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
-        shareText = "Нуждая се от пътна помощ. Това е моето местоположение:";
-        accuracyText.textContent = `Точност: приблизително ${accuracy} м.`;
-
-        const separator = /iPad|iPhone|iPod/.test(navigator.userAgent) ? "&" : "?";
-        smsLink.href = `sms:${separator}body=${encodeURIComponent(`${shareText} ${mapUrl}`)}`;
-        showState("ready");
-      },
-      (error) => {
-        const messages = {
-          1: "Достъпът до местоположението е отказан. Разрешете го от настройките на браузъра и опитайте отново.",
-          2: "Местоположението не може да бъде определено в момента. Проверете GPS и връзката си.",
-          3: "Определянето на местоположението отне твърде дълго. Опитайте отново."
-        };
-
-        errorText.textContent = messages[error.code] || "Възникна неочаквана грешка. Опитайте отново.";
-        showState("error");
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 12000,
-        maximumAge: 30000
-      }
+      (position) => usePosition(position, currentRequest),
+      (error) => handleLocationFailure(error, currentRequest, true),
+      { enableHighAccuracy: true, timeout: 16000, maximumAge: 60000 }
     );
   };
 
@@ -117,7 +174,7 @@
     }
 
     try {
-      await copyToClipboard(`${shareText} ${mapUrl}`);
+      await copyToClipboard(shareText + " " + mapUrl);
       if (copyLabel) copyLabel.textContent = "Линкът е копиран";
     } catch {
       window.open(mapUrl, "_blank", "noopener,noreferrer");
@@ -129,7 +186,7 @@
 
     try {
       await copyToClipboard(mapUrl);
-      copyButton.textContent = "Линкът е копиран";
+      if (copyLabel) copyLabel.textContent = "Линкът е копиран";
       window.setTimeout(() => {
         if (copyLabel) copyLabel.textContent = "Копирай линка";
       }, 2400);

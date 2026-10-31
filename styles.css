@@ -10,9 +10,9 @@
   --viber: #7360f2;
   --paper: #f3f4f6;
   --ink: #0b0d10;
-  --muted: #aeb4bf;
+  --muted: #c0c5ce;
   --muted-dark: #606773;
-  --max: 1320px;
+  --max: 1520px;
   --radius: 18px;
   --shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
 }
@@ -1583,5 +1583,139 @@ summary:focus-visible {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* Readability, permission recovery, and wider desktop canvas */
+.location-help {
+  margin-top: 10px;
+  background: #191e26;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+}
+
+.location-help summary {
+  min-height: 46px;
+  padding: 13px 42px 13px 15px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 850;
+  cursor: pointer;
+  list-style: none;
+}
+
+.location-help summary::-webkit-details-marker {
+  display: none;
+}
+
+.location-help summary::after {
+  content: "";
+  width: 14px;
+  height: 14px;
+  position: absolute;
+  right: 15px;
+  background: url("assets/icons/chevron-down.svg") center / contain no-repeat;
+  filter: brightness(0) invert(1);
+  transition: transform 160ms ease;
+}
+
+.location-help[open] summary::after {
+  transform: rotate(180deg);
+}
+
+.location-help p {
+  margin: 0;
+  padding: 0 15px 15px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.work-photo:nth-child(1) img {
+  object-position: 52% 55%;
+}
+
+.work-photo:nth-child(3) img {
+  object-position: 50% 46%;
+}
+
+.work-photo:nth-child(6) img,
+.work-photo:nth-child(7) img {
+  object-position: 50% 58%;
+}
+
+@media (min-width: 840px) {
+  .availability-bar {
+    font-size: 11px;
+  }
+
+  .brand-text small {
+    font-size: 11px;
+  }
+
+  .desktop-nav {
+    font-size: 13px;
+  }
+
+  .hero-privacy,
+  .hero-facts small {
+    font-size: 10px;
+  }
+
+  .trust-grid strong {
+    font-size: 14px;
+  }
+
+  .trust-grid small {
+    font-size: 11px;
+  }
+
+  .section-heading > div > p:not(.section-kicker),
+  .contact-card > p:not(.section-kicker):not(.coverage-line),
+  .review-copy > p:not(.section-kicker),
+  .faq-intro > p:last-child {
+    font-size: 14px;
+  }
+
+  .service-card p {
+    font-size: 13px;
+  }
+
+  .work-photo figcaption {
+    font-size: 11px;
+  }
+
+  .copyright-note,
+  .review-copy > small,
+  .footer-grid > small {
+    font-size: 10px;
+  }
+
+  .coverage-line strong,
+  .faq-list summary {
+    font-size: 14px;
+  }
+
+  .coverage-line small,
+  .call-prep small {
+    font-size: 11px;
+  }
+
+  .call-prep strong,
+  .footer-links {
+    font-size: 12px;
+  }
+
+  .faq-list details p {
+    font-size: 13px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .shell {
+    width: min(100% - 40px, var(--max));
   }
 }
