@@ -138,6 +138,31 @@
     }
   });
 
+  const gallery = document.querySelector(".work-gallery");
+  const galleryPrev = document.querySelector(".gallery-prev");
+  const galleryNext = document.querySelector(".gallery-next");
+
+  const updateGalleryButtons = () => {
+    if (!gallery || !galleryPrev || !galleryNext) return;
+    const maxScroll = gallery.scrollWidth - gallery.clientWidth;
+    galleryPrev.disabled = gallery.scrollLeft <= 4;
+    galleryNext.disabled = gallery.scrollLeft >= maxScroll - 4;
+  };
+
+  const moveGallery = (direction) => {
+    if (!gallery) return;
+    const firstCard = gallery.querySelector(".work-photo");
+    const gap = Number.parseFloat(getComputedStyle(gallery).columnGap) || 12;
+    const distance = (firstCard?.getBoundingClientRect().width || gallery.clientWidth * 0.82) + gap;
+    gallery.scrollBy({ left: direction * distance, behavior: "smooth" });
+  };
+
+  galleryPrev?.addEventListener("click", () => moveGallery(-1));
+  galleryNext?.addEventListener("click", () => moveGallery(1));
+  gallery?.addEventListener("scroll", updateGalleryButtons, { passive: true });
+  window.addEventListener("resize", updateGalleryButtons);
+  updateGalleryButtons();
+
   const year = document.querySelector("#year");
   if (year) year.textContent = String(new Date().getFullYear());
 })();
