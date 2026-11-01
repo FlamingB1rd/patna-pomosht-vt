@@ -428,7 +428,7 @@ summary:focus-visible {
   margin: auto 0 0;
   padding: 11px 7px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: minmax(0, 0.56fr) minmax(0, 1.14fr) minmax(0, 1.3fr);
   background: rgba(5, 7, 10, 0.82);
   border: 1px solid var(--line-strong);
   border-radius: 14px;
@@ -562,10 +562,25 @@ summary:focus-visible {
 
 .service-photo {
   width: 100%;
-  height: 108px;
+  height: auto;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
   object-position: center;
   filter: saturate(0.82) contrast(1.02);
+}
+
+.service-photo-transport {
+  object-position: 50% 42%;
+}
+
+.service-photo-tire {
+  object-position: 50% 56%;
+}
+
+.service-photo-fuel {
+  padding: 8px;
+  object-fit: contain;
+  background: #fff;
 }
 
 .service-body {
@@ -1324,7 +1339,7 @@ summary:focus-visible {
   }
 
   .service-photo {
-    height: 128px;
+    height: auto;
   }
 
   .service-body {
@@ -1514,16 +1529,17 @@ summary:focus-visible {
   }
 
   .hero-facts {
-    width: min(760px, 100%);
+    width: min(840px, 100%);
     padding: 14px 10px;
+    grid-template-columns: minmax(132px, 0.7fr) minmax(250px, 1.25fr) minmax(300px, 1.45fr);
   }
 
   .hero-facts strong {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .hero-facts small {
-    font-size: 9px;
+    font-size: 12px;
   }
 
   .trust-grid > div {
@@ -1540,7 +1556,7 @@ summary:focus-visible {
   }
 
   .service-photo {
-    height: 132px;
+    height: auto;
   }
 
   .service-body {
@@ -1649,20 +1665,20 @@ summary:focus-visible {
 
 @media (min-width: 840px) {
   .availability-bar {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .brand-text small {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .desktop-nav {
-    font-size: 13px;
+    font-size: 14px;
   }
 
   .hero-privacy,
   .hero-facts small {
-    font-size: 10px;
+    font-size: 12px;
   }
 
   .trust-grid strong {
@@ -1670,28 +1686,28 @@ summary:focus-visible {
   }
 
   .trust-grid small {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .section-heading > div > p:not(.section-kicker),
   .contact-card > p:not(.section-kicker):not(.coverage-line),
   .review-copy > p:not(.section-kicker),
   .faq-intro > p:last-child {
-    font-size: 14px;
+    font-size: 15px;
   }
 
   .service-card p {
-    font-size: 13px;
+    font-size: 14px;
   }
 
   .work-photo figcaption {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .copyright-note,
   .review-copy > small,
   .footer-grid > small {
-    font-size: 10px;
+    font-size: 12px;
   }
 
   .coverage-line strong,
@@ -1701,7 +1717,7 @@ summary:focus-visible {
 
   .coverage-line small,
   .call-prep small {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .call-prep strong,
@@ -1710,7 +1726,7 @@ summary:focus-visible {
   }
 
   .faq-list details p {
-    font-size: 13px;
+    font-size: 14px;
   }
 }
 
