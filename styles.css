@@ -1036,6 +1036,7 @@ summary:focus-visible {
 
 .footer-links {
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
   gap: 10px 18px;
   color: #b9bec6;
@@ -1467,6 +1468,22 @@ summary:focus-visible {
   .footer-grid {
     grid-template-columns: 1fr auto auto;
     align-items: center;
+  }
+
+  .footer-grid > p {
+    display: flex;
+    align-items: baseline;
+    gap: 9px;
+    white-space: nowrap;
+  }
+
+  .footer-grid > p a,
+  .footer-grid > p span {
+    display: inline;
+  }
+
+  .footer-grid > p span {
+    margin-top: 0;
   }
 
   .footer-grid > small {

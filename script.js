@@ -18,6 +18,11 @@
   let permissionStatus = null;
   let requestNumber = 0;
 
+  const userAgent = navigator.userAgent || "";
+  const platform = navigator.userAgentData?.platform || navigator.platform || "";
+  const isIOS = /iPad|iPhone|iPod/.test(userAgent) || (platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const isAndroid = platform === "Android" || /Android/i.test(userAgent);
+
   const showState = (state) => {
     statusBox.hidden = state !== "loading";
     resultBox.hidden = state !== "ready";
@@ -27,13 +32,12 @@
   const setPermissionHelp = () => {
     if (!locationHelpText) return;
 
-    const userAgent = navigator.userAgent;
-    if (/iPad|iPhone|iPod/.test(userAgent)) {
+    if (isIOS) {
       locationHelpText.textContent = "На iPhone/iPad: отворете Настройки → Поверителност и сигурност → Услуги за местоположение и разрешете достъпа за браузъра. В Safari можете и от aA → Настройки за уебсайта → Местоположение → Разрешаване.";
       return;
     }
 
-    if (/Android/i.test(userAgent)) {
+    if (isAndroid) {
       locationHelpText.textContent = "На Android: натиснете иконата до адреса на сайта → Разрешения → Местоположение → Разрешаване. Проверете също дали Местоположение/GPS е включено в телефона.";
       return;
     }
@@ -86,7 +90,7 @@
     shareText = "Нуждая се от пътна помощ. Това е моето местоположение:";
     accuracyText.textContent = "Точност: приблизително " + accuracy + " м.";
 
-    const separator = /iPad|iPhone|iPod/.test(navigator.userAgent) ? "&" : "?";
+    const separator = isIOS ? "&" : "?";
     smsLink.href = "sms:" + separator + "body=" + encodeURIComponent(shareText + " " + mapUrl);
     showState("ready");
   };
