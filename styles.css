@@ -315,6 +315,10 @@ h3 {
   color: var(--red);
 }
 
+.hero h1 .hero-service {
+  color: #fff;
+}
+
 .hero-lead {
   max-width: 560px;
   margin-bottom: 22px;
@@ -1698,3 +1702,4 @@ summary:focus-visible {
     width: min(100% - 40px, var(--max));
   }
 }
+
