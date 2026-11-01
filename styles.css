@@ -251,8 +251,8 @@ h3 {
 }
 
 .hero-stage {
-  min-height: 650px;
-  padding: 42px 18px 18px;
+  min-height: 570px;
+  padding: 42px 18px 34px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -422,54 +422,6 @@ summary:focus-visible {
   color: #aeb3bc;
   font-size: 10px;
   line-height: 1.45;
-}
-
-.hero-facts {
-  margin: auto 0 0;
-  padding: 11px 7px;
-  display: grid;
-  grid-template-columns: minmax(0, 0.56fr) minmax(0, 1.14fr) minmax(0, 1.3fr);
-  background: rgba(5, 7, 10, 0.82);
-  border: 1px solid var(--line-strong);
-  border-radius: 14px;
-  list-style: none;
-  backdrop-filter: blur(12px);
-}
-
-.hero-facts li {
-  min-width: 0;
-  padding: 4px 8px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  border-right: 1px solid var(--line);
-}
-
-.hero-facts li:last-child {
-  border-right: 0;
-}
-
-.hero-facts .icon {
-  width: 17px;
-  height: 17px;
-}
-
-.hero-facts strong,
-.hero-facts small {
-  display: block;
-}
-
-.hero-facts strong {
-  font-family: "Roboto Condensed", sans-serif;
-  font-size: 12px;
-  line-height: 1.05;
-}
-
-.hero-facts small {
-  margin-top: 3px;
-  color: #979da8;
-  font-size: 8px;
-  line-height: 1.1;
 }
 
 .trust-strip {
@@ -1302,8 +1254,8 @@ summary:focus-visible {
   }
 
   .hero-stage {
-    min-height: 640px;
-    padding: 68px 42px 24px;
+    min-height: 580px;
+    padding: 68px 42px 48px;
     background-image:
       linear-gradient(90deg, rgba(3, 5, 7, 0.96) 0%, rgba(3, 5, 7, 0.72) 40%, rgba(3, 5, 7, 0.08) 76%),
       linear-gradient(180deg, transparent 58%, #07090c 100%),
@@ -1495,8 +1447,17 @@ summary:focus-visible {
 
   .faq-layout {
     grid-template-columns: minmax(0, 0.92fr) minmax(360px, 1.08fr);
-    align-items: start;
+    align-items: center;
     gap: 48px;
+  }
+
+  .faq-list summary {
+    padding-left: 18px;
+  }
+
+  .faq-list details p {
+    margin-right: 42px;
+    margin-left: 18px;
   }
 
   .work-gallery {
@@ -1515,8 +1476,8 @@ summary:focus-visible {
 
 @media (min-width: 1100px) {
   .hero-stage {
-    min-height: 680px;
-    padding: 82px 64px 25px;
+    min-height: 610px;
+    padding: 82px 64px 56px;
     background-position: center center;
   }
 
@@ -1526,20 +1487,6 @@ summary:focus-visible {
 
   .hero-lead {
     font-size: 16px;
-  }
-
-  .hero-facts {
-    width: min(840px, 100%);
-    padding: 14px 10px;
-    grid-template-columns: minmax(132px, 0.7fr) minmax(250px, 1.25fr) minmax(300px, 1.45fr);
-  }
-
-  .hero-facts strong {
-    font-size: 16px;
-  }
-
-  .hero-facts small {
-    font-size: 12px;
   }
 
   .trust-grid > div {
@@ -1676,8 +1623,7 @@ summary:focus-visible {
     font-size: 14px;
   }
 
-  .hero-privacy,
-  .hero-facts small {
+  .hero-privacy {
     font-size: 12px;
   }
 
